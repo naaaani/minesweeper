@@ -85,7 +85,7 @@ def main():
 
     field = []
     field = crate_field(map_details["x"], map_details["y"], map_details["mines"], field)
-    headers = [1,2,3,4,5,6,7,8,9]
+    headers = ["A","B","C","D","E","F","G","H","I"]
     count_mines(field)
     print(tabulate(field, headers, tablefmt="grid"))
 
