@@ -3,10 +3,10 @@ import pygame
 from random import randint
 from tabulate import tabulate
 
-WINDOW_WIDTH = 255
-WINDOW_HEIGHT = 255
+SCREEN_WIDTH = 255
+SCREEN_HEIGHT = 255 
 background_colour = (234, 212, 252)
-SCREEN = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption('Minesweeper')
 SCREEN.fill(background_colour)
 
@@ -57,29 +57,36 @@ def count_mines(map, y, x):
         map[y-1][x-1] += 1  # north-west
 
 
-def drawGrid():
+def drawGrid(field):
     color = (255, 255, 255)
-    MARGIN = 5
-    BLOCKSIZE = 20
+    margin = 5
+    blocksize = 20
+    font = pygame.font.SysFont('arial', 20)
 
     for row in range(MAP_DETAILS["x"]):    
         for column in range(MAP_DETAILS["y"]):
-            pygame.draw.rect(SCREEN,
+            content = str(field[row][column])
+            text = font.render(content, True, (0, 0, 0))
+            rect = pygame.draw.rect(SCREEN,
                              color,
-                             [(MARGIN + BLOCKSIZE) * column + MARGIN,
-                                 (MARGIN + BLOCKSIZE) * row + MARGIN,
-                                 BLOCKSIZE,
-                                 BLOCKSIZE])
-
+                             [(margin + blocksize) * column + margin,
+                                 (margin + blocksize) * row + margin,
+                                 blocksize,  # height
+                                 blocksize]) # width
+            print(text)
+            SCREEN.blit(text, rect)
 
 def main():
+    pygame.init()
+
     field = []
     field = crate_field(
         MAP_DETAILS["x"], MAP_DETAILS["y"], MAP_DETAILS["mines"], field)
     headers = ["A", "B", "C", "D", "E", "F", "G", "H", "I"]
     print(tabulate(field, headers, tablefmt="grid"))
 
-    drawGrid()
+    drawGrid(field)
+
     pygame.display.flip()
     running = True
     while running:
