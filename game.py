@@ -69,6 +69,8 @@ def drawGrid(field):
     blocksize = 20
     font = pygame.font.SysFont('arial', 20)
 
+    sprite_map = []
+
     for row in range(MAP_DETAILS["x"]):
         for column in range(MAP_DETAILS["y"]):
             content = str(field[row][column].num_value)
@@ -80,6 +82,10 @@ def drawGrid(field):
                                         blocksize,  # height
                                         blocksize])  # width
             SCREEN.blit(text, rect)
+            sprite_map.append(rect)
+
+    return sprite_map
+    
 
 
 def main():
@@ -99,7 +105,7 @@ def main():
         num_map.append(new_line)
 
     print(tabulate(num_map, headers, tablefmt="grid"))
-    drawGrid(field)
+    print(drawGrid(field))
 
     pygame.display.flip()
     running = True
@@ -113,6 +119,7 @@ def main():
                 pos = pygame.mouse.get_pos()
                 column = pos[0] // (SCREEN_WIDTH + MARGIN)
                 row = pos[1] // (SCREEN_HEIGHT + MARGIN)
+                print (pos)
 
 
 main()
