@@ -64,7 +64,7 @@ def count_mines(map, y, x):
         map[y-1][x-1].num_value += 1  # north-west
 
 
-def drawGrid(field):
+def drawGrid(field): # TODO separate this into create, draw
     color = (255, 255, 255)
     blocksize = 20
     font = pygame.font.SysFont('arial', 20)
@@ -87,6 +87,15 @@ def drawGrid(field):
     return sprite_map
     
 
+def is_clicked(tile, click_coords):
+    low_value = tile[0]
+    square_lenght = tile[2]
+    high_value = low_value + square_lenght
+
+    if click_coords[0] > low_value and click_coords[0] < high_value:
+        return True
+    return False
+
 
 def main():
     pygame.init()
@@ -105,7 +114,7 @@ def main():
         num_map.append(new_line)
 
     print(tabulate(num_map, headers, tablefmt="grid"))
-    print(drawGrid(field))
+    sprite_map = drawGrid(field)
 
     pygame.display.flip()
     running = True
@@ -117,9 +126,10 @@ def main():
                 running = False
             elif event.type == pygame.MOUSEBUTTONUP:
                 pos = pygame.mouse.get_pos()
-                column = pos[0] // (SCREEN_WIDTH + MARGIN)
-                row = pos[1] // (SCREEN_HEIGHT + MARGIN)
                 print (pos)
-
+                for tile in sprite_map:
+                    if is_clicked(tile, pos):
+                        print('hit')
+                        break
 
 main()
