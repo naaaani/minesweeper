@@ -3,6 +3,8 @@ import pygame
 from random import randint
 from tabulate import tabulate
 
+from Tile import Tile
+
 SCREEN_WIDTH = 255
 SCREEN_HEIGHT = 255
 MARGIN = 5
@@ -19,15 +21,6 @@ MAP_DETAILS = {
 
 # also 13*15 with 40 mines, 16*30 with 99 mines
 
-
-class Tile():
-
-    num_value = 0
-    hidden = True
-    def set_mine(self):
-        self.num_value = -1
-
-
 def get_random_coords(field, row_count, column_count):
     row_index = randint(0, row_count - 1)
     column_index = randint(0, column_count - 1)
@@ -37,12 +30,13 @@ def get_random_coords(field, row_count, column_count):
         return get_random_coords(field, row_count, column_count)
 
 def crate_field(row_count, column_count, mine_count):
-    field = [[Tile() for _ in range(column_count)] for _ in range(row_count)]
+    field = [[Tile(x, y) for x in range(column_count)] for y in range(row_count)]
     for i in range(mine_count):
         [row_index, column_index] = get_random_coords(field, row_count, column_count)
         field[row_index][column_index].set_mine()
         count_mines(field, row_index, column_index)
 
+    print('adasdsadssadadsadsa', field[0][0].get_coords())
     return field
 
 def count_mines(map, y, x):
