@@ -129,9 +129,9 @@ def main():
             elif event.type == pygame.MOUSEBUTTONUP:
                 pos = pygame.mouse.get_pos()
                 print(pos)
-                for tile in sprite_map:
+                for tile in sprite_map: #TODO sprite_map should be 2d array
                     if is_clicked(tile, pos): #TODO find tile by pos
-                        print('hit')
+                        print(tile)
                         break
 
 main()
