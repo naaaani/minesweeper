@@ -36,7 +36,6 @@ def crate_field(row_count, column_count, mine_count):
         field[row_index][column_index].set_mine()
         count_mines(field, row_index, column_index)
 
-    print('adasdsadssadadsadsa', field[0][0].get_coords())
     return field
 
 def count_mines(map, y, x):
