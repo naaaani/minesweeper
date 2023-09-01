@@ -109,7 +109,6 @@ def main():
 
     print(tabulate(num_map, headers, tablefmt="grid"))
     sprite_map = draw_grid(field) #TODO storing of coords not needed
-    print(sprite_map)
     pygame.display.flip()
 
     running = True
@@ -121,7 +120,7 @@ def main():
                 running = False
             elif event.type == pygame.MOUSEBUTTONUP:
                 pos = pygame.mouse.get_pos()
-                print(pos)
+                                
                 for tile in sprite_map: #TODO sprite_map should be 2d array
                     if is_clicked(tile, pos): #TODO find tile by pos
                         print(tile)
