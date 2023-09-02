@@ -58,10 +58,9 @@ def count_mines(map, y, x):
 
 def draw_grid(field): # TODO separate this into create, draw
     color = (255, 255, 255)
-    blocksize = 20
+    block_height = SCREEN_HEIGHT / MAP_DETAILS["x"] - 2
+    block_width = block_height
     font = pygame.font.SysFont('arial', 20)
-
-    sprite_map = []
 
     for row in range(MAP_DETAILS["x"]):
         for column in range(MAP_DETAILS["y"]):
@@ -72,16 +71,13 @@ def draw_grid(field): # TODO separate this into create, draw
                 screen, 
                 color,                    
                 [
-                    (MARGIN + blocksize) * column + MARGIN,
-                    (MARGIN + blocksize) * row + MARGIN,
-                    blocksize,  # height
-                    blocksize   # width
+                    (MARGIN + block_height) * column + MARGIN,
+                    (MARGIN + block_width) * row + MARGIN,
+                    block_height,  # height
+                    block_width   # width
                 ]
             )
             screen.blit(text, rect)
-            sprite_map.append(rect)
-
-    return sprite_map
     
 def is_clicked(tile, click_coords):
     low_value = tile[0]
@@ -108,7 +104,7 @@ def main():
         num_map.append(new_line)
 
     print(tabulate(num_map, headers, tablefmt="grid"))
-    sprite_map = draw_grid(field) #TODO storing of coords not needed
+    draw_grid(field)
     pygame.display.flip()
 
     running = True
@@ -119,11 +115,7 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
             elif event.type == pygame.MOUSEBUTTONUP:
-                pos = pygame.mouse.get_pos()
-                                
-                for tile in sprite_map: #TODO sprite_map should be 2d array
-                    if is_clicked(tile, pos): #TODO find tile by pos
-                        print(tile)
-                        break
+                pos = pygame.mouse.get_pos() #TODO calculate tile cliced
+                print(pos)
 
 main()

@@ -20,3 +20,6 @@ class Tile():
 
     def get_coords(self):
         return [self.x, self.y]
+    
+    def is_mine(self):
+        return self.num_value == -1
