@@ -5,12 +5,13 @@ from tabulate import tabulate
 
 from Tile import Tile
 
-SCREEN_WIDTH = 500
-SCREEN_HEIGHT = 500
-MENU_MARGIN = 30
-MAP_MARGIN = 2
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600
+MENU_MARGIN = SCREEN_HEIGHT / 20
+MAP_MARGIN = SCREEN_WIDTH / 20
 BLOCK_MARGIN = 0
 BACKGROUND_COLOR = (234, 212, 252) 
+
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption('Minesweeper')
 screen.fill(BACKGROUND_COLOR)
@@ -76,6 +77,7 @@ def draw_grid(field):
     block_height = (SCREEN_HEIGHT - MENU_MARGIN - MAP_MARGIN) / MAP_DETAILS["y"]
     block_width = block_height
     font = pygame.font.SysFont('arial', 20)
+    side_margin = (SCREEN_WIDTH - (MAP_MARGIN * 2)  - (MAP_DETAILS["y"] * block_width)) / 2 
 
     for row in range(MAP_DETAILS["x"]):
         for column in range(MAP_DETAILS["y"]):
@@ -83,8 +85,8 @@ def draw_grid(field):
             content = str(field[row][column].num_value)
             text = font.render(content, True, (0, 0, 0))
 
-            rect_left = (BLOCK_MARGIN + block_height) * column + BLOCK_MARGIN
-            rect_top = (BLOCK_MARGIN + block_width) * row + BLOCK_MARGIN
+            rect_left = (block_height) * column + MAP_MARGIN + side_margin
+            rect_top = (block_width) * row  + MAP_MARGIN + MENU_MARGIN
 
             rect = pygame.draw.rect(
                 screen, 
@@ -124,6 +126,8 @@ def main():
                 running = False
             elif event.type == pygame.MOUSEBUTTONUP:
                 mouse_pos = pygame.mouse.get_pos() #TODO calculate tile cliced
-                print(mouse_pos)
+                print(mouse_pos[0] / ((SCREEN_WIDTH - MAP_MARGIN) / MAP_DETAILS["x"]), 
+                      mouse_pos[1] / ((SCREEN_HEIGHT - MAP_MARGIN) / MAP_DETAILS["y"]))
+
 
 main()
