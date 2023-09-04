@@ -2,6 +2,7 @@
 import pygame
 from random import randint
 from tabulate import tabulate
+from math import floor
 
 from Tile import Tile
 
@@ -117,6 +118,13 @@ def main():
     
     pygame.display.flip()
 
+    block_height = (SCREEN_HEIGHT - MENU_MARGIN - MAP_MARGIN) / MAP_DETAILS["y"]
+
+    side_margin = (SCREEN_WIDTH - (MAP_MARGIN * 2)  - (MAP_DETAILS["y"] * block_height)) / 2
+    print(block_height*MAP_DETAILS["x"])
+    asdf = (SCREEN_WIDTH - (block_height * MAP_DETAILS["x"]) - (side_margin * 2))
+    print(asdf)
+
     running = True
     while running:
         events = pygame.event.get()
@@ -126,8 +134,9 @@ def main():
                 running = False
             elif event.type == pygame.MOUSEBUTTONUP:
                 mouse_pos = pygame.mouse.get_pos() #TODO calculate tile cliced
-                print(mouse_pos[0] / ((SCREEN_WIDTH - MAP_MARGIN) / MAP_DETAILS["x"]), 
-                      mouse_pos[1] / ((SCREEN_HEIGHT - MAP_MARGIN) / MAP_DETAILS["y"]))
+                print(mouse_pos)
+                print(floor(mouse_pos[0] / asdf))
+            # print(pygame.mouse.get_pos())
 
 
 main()
