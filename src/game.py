@@ -118,12 +118,13 @@ def main():
     
     pygame.display.flip()
 
-    block_height = (SCREEN_HEIGHT - MENU_MARGIN - MAP_MARGIN) / MAP_DETAILS["y"]
+    block_width = (SCREEN_HEIGHT - MENU_MARGIN - MAP_MARGIN) / MAP_DETAILS["y"]
 
-    side_margin = (SCREEN_WIDTH - (MAP_MARGIN * 2)  - (MAP_DETAILS["y"] * block_height)) / 2
-    print(block_height*MAP_DETAILS["x"])
-    asdf = (SCREEN_WIDTH - (block_height * MAP_DETAILS["x"]) - (side_margin * 2))
-    print(asdf)
+    side_margin = (SCREEN_WIDTH - (MAP_MARGIN * 2)  - (MAP_DETAILS["y"] * block_width)) / 2
+    print(block_width*MAP_DETAILS["x"])
+    asdf = (block_width * MAP_DETAILS["x"])
+    print("asdf" + str(asdf))
+    side_margin = (SCREEN_WIDTH - (MAP_MARGIN * 2)  - (MAP_DETAILS["y"] * block_width)) / 2 
 
     running = True
     while running:
@@ -133,9 +134,9 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
             elif event.type == pygame.MOUSEBUTTONUP:
-                mouse_pos = pygame.mouse.get_pos() #TODO calculate tile cliced
+                mouse_pos = pygame.mouse.get_pos() #TODO calculate tile clicked
                 print(mouse_pos)
-                print(floor(mouse_pos[0] / asdf))
+                print(floor((mouse_pos[0] - side_margin - MENU_MARGIN) / block_width))
             # print(pygame.mouse.get_pos())
 
 
