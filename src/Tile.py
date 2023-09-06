@@ -8,12 +8,6 @@ class Tile():
         
     def set_mine(self):
         self.num_value = -1
-
-    def get_hidden(self):
-        return self.hidden
-    
-    def get_value(self):
-        return self.num_value
     
     def set_value(self, value):
         self.num_value = value

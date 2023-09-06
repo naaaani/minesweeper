@@ -5,17 +5,7 @@ from tabulate import tabulate
 from math import floor
 
 from Tile import Tile
-
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
-MENU_MARGIN = SCREEN_HEIGHT / 20
-MAP_MARGIN = SCREEN_WIDTH / 20
-BLOCK_MARGIN = 0
-BACKGROUND_COLOR = (234, 212, 252) 
-
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption('Minesweeper')
-screen.fill(BACKGROUND_COLOR)
+from Screen import Screen
 
 MAP_DETAILS = {
     "x": 9,
@@ -73,12 +63,13 @@ def draw_table(field):
 
     print(tabulate(num_map, headers, tablefmt="grid"))
 
-def draw_grid(field):
+def draw_grid(field, display, screen):
     color = (255, 255, 255)
-    block_height = (SCREEN_HEIGHT - MENU_MARGIN - MAP_MARGIN) / MAP_DETAILS["y"]
+    block_height = (display.screen_height - display.menu_margin -
+                     display.map_margin) / MAP_DETAILS["y"]
     block_width = block_height
     font = pygame.font.SysFont('arial', 20)
-    side_margin = (SCREEN_WIDTH - (MAP_MARGIN * 2)  - (MAP_DETAILS["y"] * block_width)) / 2 
+    side_margin = (display.screen_width - (display.map_margin * 2)  - (MAP_DETAILS["y"] * block_width)) / 2 
 
     for row in range(MAP_DETAILS["x"]):
         for column in range(MAP_DETAILS["y"]):
@@ -86,8 +77,8 @@ def draw_grid(field):
             content = str(field[row][column].num_value)
             text = font.render(content, True, (0, 0, 0))
 
-            rect_left = (block_height) * column + MAP_MARGIN + side_margin
-            rect_top = (block_width) * row  + MAP_MARGIN + MENU_MARGIN
+            rect_left = (block_height) * column + display.map_margin + side_margin
+            rect_top = (block_width) * row  + display.map_margin + display.menu_margin
 
             rect = pygame.draw.rect(
                 screen, 
@@ -108,23 +99,28 @@ def is_clicked(tile, click_coords):
 
 def main():
     pygame.init()
+    display = Screen(800, 600, (234, 212, 252))
+
+    screen = pygame.display.set_mode((display.screen_width, display.screen_height))
+    pygame.display.set_caption('Minesweeper')
+    screen.fill(display.background_color)
+
 
     field = crate_field(
         MAP_DETAILS["x"], MAP_DETAILS["y"], MAP_DETAILS["mines"])
     
     draw_table(field)
 
-    draw_grid(field)
+    draw_grid(field, display, screen)
     
     pygame.display.flip()
 
-    block_width = (SCREEN_HEIGHT - MENU_MARGIN - MAP_MARGIN) / MAP_DETAILS["y"]
-
-    side_margin = (SCREEN_WIDTH - (MAP_MARGIN * 2)  - (MAP_DETAILS["y"] * block_width)) / 2
-    print(block_width*MAP_DETAILS["x"])
-    asdf = (block_width * MAP_DETAILS["x"])
-    print("asdf" + str(asdf))
-    side_margin = (SCREEN_WIDTH - (MAP_MARGIN * 2)  - (MAP_DETAILS["y"] * block_width)) / 2 
+    block_width = (display.screen_height - display.menu_margin -
+                    display.map_margin) / MAP_DETAILS["y"]
+    side_margin = (display.screen_width - (display.map_margin * 2) -
+                    (MAP_DETAILS["y"] * block_width)) / 2
+    side_margin = (display.screen_width - (display.map_margin * 2) -
+                    (MAP_DETAILS["y"] * block_width)) / 2 
 
     running = True
     while running:
@@ -136,8 +132,7 @@ def main():
             elif event.type == pygame.MOUSEBUTTONUP:
                 mouse_pos = pygame.mouse.get_pos() #TODO calculate tile clicked
                 print(mouse_pos)
-                print(floor((mouse_pos[0] - side_margin - MENU_MARGIN) / block_width))
-            # print(pygame.mouse.get_pos())
-
+                print(floor((mouse_pos[0] - side_margin -
+                             display.menu_margin) / block_width))
 
 main()
