@@ -65,8 +65,7 @@ def draw_table(field):
 
 def draw_grid(field, display, screen):
     color = (255, 255, 255)
-    block_height = (display.screen_height - display.menu_margin -
-                     display.map_margin) / MAP_DETAILS["y"]
+    block_height = floor(display.screen_height / MAP_DETAILS["y"])
     block_width = block_height
     font = pygame.font.SysFont('arial', 20)
     side_margin = (display.screen_width - (display.map_margin * 2)  - (MAP_DETAILS["y"] * block_width)) / 2 
@@ -77,15 +76,18 @@ def draw_grid(field, display, screen):
             content = str(field[row][column].num_value)
             text = font.render(content, True, (0, 0, 0))
 
-            rect_left = (block_height) * column + display.map_margin + side_margin
-            rect_top = (block_width) * row  + display.map_margin + display.menu_margin
+            rect_left = (block_height) * column# + display.map_margin + side_margin
+            rect_top = (block_width) * row#  + display.map_margin + display.menu_margin
 
             rect = pygame.draw.rect(
                 screen, 
                 color,
-                pygame.Rect(rect_left, rect_top, block_height, block_width)        
+                pygame.Rect(rect_left, rect_top, block_height, block_width),
+                5 # border width
             )
-
+            if (row == 0):
+                print("top left: " + str(rect.topleft[0]), str(rect.topleft[1]) + " width: " + str(rect.width))
+                print("top right: " + str(rect.topright[0]), str(rect.topright[0]))
             screen.blit(text, rect)
     
 def is_clicked(tile, click_coords):
@@ -99,7 +101,7 @@ def is_clicked(tile, click_coords):
 
 def main():
     pygame.init()
-    display = Screen(800, 600, (234, 212, 252))
+    display = Screen(600, 600, (234, 212, 252))
 
     screen = pygame.display.set_mode((display.screen_width, display.screen_height))
     pygame.display.set_caption('Minesweeper')
@@ -132,7 +134,7 @@ def main():
             elif event.type == pygame.MOUSEBUTTONUP:
                 mouse_pos = pygame.mouse.get_pos() #TODO calculate tile clicked
                 print(mouse_pos)
-                print(floor((mouse_pos[0] - side_margin -
-                             display.menu_margin) / block_width))
+                print(mouse_pos[0]/block_width)
+                print(floor((mouse_pos[0] / block_width)))
 
 main()
