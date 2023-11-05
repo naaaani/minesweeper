@@ -120,11 +120,13 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
             elif event.type == pygame.MOUSEBUTTONUP:
-                mouse_pos = pygame.mouse.get_pos()  # TODO calculate tile clicked
+                mouse_pos = pygame.mouse.get_pos()
                 column = mouse_pos[0] // (20 + 5)
                 row = mouse_pos[1] // (20 + 5)
-                field[row][column].set_flag()
                 print(row, column)
+                if row >= MAP_DETAILS["x"] or column >= MAP_DETAILS["y"]:
+                    break
+                field[row][column].set_flag()
 
 
 main()
