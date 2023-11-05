@@ -79,16 +79,22 @@ def draw_grid(field, screen_details, screen_surface):
     for row in range(MAP_DETAILS["x"]):
         for column in range(MAP_DETAILS["y"]):
             color = white
-            if field[row][column].is_mine():
+            current_tile = field[row][column]
+            if current_tile.is_mine():
                 color = (0, 0, 0)
-            if field[row][column].is_flagged():
+            if current_tile.is_flagged():
                 color = (255, 0, 0)
-            pygame.draw.rect(screen_surface,
+            rect = pygame.draw.rect(screen_surface,
                              color,
                              pygame.Rect((margin + block_width) * column + margin,
                                          (margin + block_height) * row + margin,
                                          block_width,
                                          block_height))
+            
+            content = str(current_tile.num_value)
+            text = screen_details.font.render(content, True, (0, 0, 0))
+            screen_surface.blit(text, rect)
+
     # TODO function to put stg at [x,y]
 
 
