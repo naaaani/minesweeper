@@ -5,6 +5,7 @@ class Tile():
         self.hidden = True
         self.x = x
         self.y = y
+        self.has_flag = False
         
     def set_mine(self):
         self.num_value = -1
@@ -17,3 +18,9 @@ class Tile():
     
     def is_mine(self):
         return self.num_value == -1
+    
+    def is_flagged(self):
+        return self.has_flag
+    
+    def set_flag(self):
+        self.has_flag = not self.has_flag
