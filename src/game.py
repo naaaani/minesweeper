@@ -2,7 +2,6 @@
 import pygame
 from random import randint
 from tabulate import tabulate
-from math import floor
 
 from Tile import Tile
 from Screen_Details import Screen_Details
@@ -90,13 +89,24 @@ def draw_grid(field, screen_details, screen_surface):
                                          (margin + block_height) * row + margin,
                                          block_width,
                                          block_height))
-            
-            content = str(current_tile.num_value)
-            text = screen_details.font.render(content, True, (0, 0, 0))
-            screen_surface.blit(text, rect)
+            if not current_tile.is_hidden():
+                content = str(current_tile.num_value)
+                text = screen_details.font.render(content, True, (0, 0, 0))
+                screen_surface.blit(text, rect)
 
     # TODO function to put stg at [x,y]
 
+def handle_right_click(field, row, column):
+    target_tile = field[row][column]
+    target_tile.set_flag()
+        
+def handle_left_click(field, row, column):
+    target_tile = field[row][column]
+    if target_tile.is_mine():
+        print("You lose")
+    elif target_tile.is_hidden():
+        target_tile.uncover()
+    print(target_tile.is_hidden())
 
 def main():
     pygame.init()
@@ -122,7 +132,6 @@ def main():
         draw_grid(field, display, screen)
         events = pygame.event.get()
         for event in events:
-
             if event.type == pygame.QUIT:
                 running = False
             elif event.type == pygame.MOUSEBUTTONUP:
@@ -130,9 +139,14 @@ def main():
                 column = mouse_pos[0] // (20 + 5)
                 row = mouse_pos[1] // (20 + 5)
                 print(row, column)
+
                 if row >= MAP_DETAILS["x"] or column >= MAP_DETAILS["y"]:
                     break
-                field[row][column].set_flag()
+                if event.button == 3:
+                    handle_right_click(field, row, column)
+                elif event.button == 1:
+                    handle_left_click(field, row, column)
+                
 
 
 main()
