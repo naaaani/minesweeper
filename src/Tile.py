@@ -13,6 +13,12 @@ class Tile():
     def set_value(self, value):
         self.num_value = value
 
+    def is_hidden(self):
+        return self.hidden
+    
+    def uncover(self):
+        self.hidden = False
+        
     def get_coords(self):
         return [self.x, self.y]
     
@@ -23,4 +29,5 @@ class Tile():
         return self.has_flag
     
     def set_flag(self):
-        self.has_flag = not self.has_flag
+        if self.hidden:
+            self.has_flag = not self.has_flag
