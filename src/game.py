@@ -5,6 +5,7 @@ from tabulate import tabulate
 
 from Tile import Tile
 from Screen_Details import Screen_Details
+from Game import Game
 
 MAP_DETAILS = {
     "x": 10,
@@ -14,29 +15,7 @@ MAP_DETAILS = {
 
 # also 13*15 with 40 mines, 16*30 with 99 mines
 
-
-def get_random_coord(game_map, row_count, column_count) -> list[int, int]:
-    row_index = randint(0, row_count - 1)
-    column_index = randint(0, column_count - 1)
-    if game_map[row_index][column_index] != -1:
-        return [row_index, column_index]
-    else:
-        return get_random_coord(game_map, row_count, column_count)
-
-
-def crate_field(row_count, column_count, mine_count) -> list[list[int, int]]:
-    field = [[Tile(x, y) for x in range(column_count)]
-             for y in range(row_count)]
-    for _ in range(mine_count):
-        [row_index, column_index] = get_random_coord(
-            field, row_count, column_count)
-        field[row_index][column_index].set_mine()
-        count_mines(field, row_index, column_index)
-
-    return field
-
-
-def count_mines(map, y, x) -> int:
+def count_num_values_around_mines(map, y, x) -> int:
     if y-1 > -1 and map[y-1][x].num_value != -1:
         map[y-1][x].num_value += 1  # north
     if x+1 < len(map[0]) and map[y][x+1].num_value != -1:
@@ -117,8 +96,10 @@ def main():
     pygame.display.set_caption('Minesweeper')
     screen.fill(display.background_color)
 
-    field = crate_field(
+    game: Game = Game()
+    game.crate_field(
         MAP_DETAILS["x"], MAP_DETAILS["y"], MAP_DETAILS["mines"])
+    field = game.get_field()
 
     draw_table(field)
     draw_grid(field, display, screen)
