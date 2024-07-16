@@ -70,12 +70,12 @@ def handle_left_click(field, row, column):
 
 def main():
     pygame.init()
-    display = Screen_Details(255, 255, (0, 0, 0), font="Arial")
+    screen_details = Screen_Details(255, 255, (0, 0, 0), font="Arial")
 
     screen: pygame.surface = pygame.display.set_mode(
-        size=(display.screen_width, display.screen_height), flags=pygame.RESIZABLE)
+        size=(screen_details.screen_width, screen_details.screen_height), flags=pygame.RESIZABLE | pygame.SCALED)
     pygame.display.set_caption('Minesweeper')
-    screen.fill(display.background_color)
+    screen.fill(screen_details.background_color)
 
     game: Game = Game()
     game.crate_field(
@@ -83,14 +83,15 @@ def main():
     field = game.get_field()
 
     draw_table(field)
-    draw_grid(field, display, screen)
+    draw_grid(field, screen_details, screen)
 
     pygame.display.flip()
 
     running = True
     while running:
         pygame.event.pump()
-        draw_grid(field, display, screen)
+        pygame.display.flip()
+        draw_grid(field, screen_details, screen)
         events = pygame.event.get()
         for event in events:
             if event.type == pygame.QUIT:
