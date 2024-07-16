@@ -8,10 +8,10 @@ class Screen_Details():
         self.menu_margin = self.screen_height / 20
         self.map_margin = self.screen_width / 20
         self.background_color = background_color
-        self.font = pygame.font.SysFont('arial', 20)
+        self.font = pygame.font.SysFont(font, 20)
 
     def set_width(self, screen_width):
         self.screen_width = screen_width
 
-    def get_font(self):
+    def get_font(self) -> pygame.font:
         return self.font

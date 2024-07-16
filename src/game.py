@@ -15,7 +15,7 @@ MAP_DETAILS = {
 # also 13*15 with 40 mines, 16*30 with 99 mines
 
 
-def get_random_coord(game_map, row_count, column_count):
+def get_random_coord(game_map, row_count, column_count) -> list[int, int]:
     row_index = randint(0, row_count - 1)
     column_index = randint(0, column_count - 1)
     if game_map[row_index][column_index] != -1:
@@ -24,7 +24,7 @@ def get_random_coord(game_map, row_count, column_count):
         return get_random_coord(game_map, row_count, column_count)
 
 
-def crate_field(row_count, column_count, mine_count):
+def crate_field(row_count, column_count, mine_count) -> list[list[int, int]]:
     field = [[Tile(x, y) for x in range(column_count)]
              for y in range(row_count)]
     for _ in range(mine_count):
@@ -36,7 +36,7 @@ def crate_field(row_count, column_count, mine_count):
     return field
 
 
-def count_mines(map, y, x):
+def count_mines(map, y, x) -> int:
     if y-1 > -1 and map[y-1][x].num_value != -1:
         map[y-1][x].num_value += 1  # north
     if x+1 < len(map[0]) and map[y][x+1].num_value != -1:
@@ -78,7 +78,7 @@ def draw_grid(field, screen_details, screen_surface):
     for row in range(MAP_DETAILS["x"]):
         for column in range(MAP_DETAILS["y"]):
             color = white
-            current_tile = field[row][column]
+            current_tile: Tile = field[row][column]
             if current_tile.is_mine():
                 color = (0, 0, 0)
             if current_tile.is_flagged():
@@ -97,11 +97,11 @@ def draw_grid(field, screen_details, screen_surface):
     # TODO function to put stg at [x,y]
 
 def handle_right_click(field, row, column):
-    target_tile = field[row][column]
+    target_tile: Tile = field[row][column]
     target_tile.set_flag()
         
 def handle_left_click(field, row, column):
-    target_tile = field[row][column]
+    target_tile: Tile = field[row][column]
     if target_tile.is_mine():
         print("You lose")
     elif target_tile.is_hidden():
@@ -121,7 +121,6 @@ def main():
         MAP_DETAILS["x"], MAP_DETAILS["y"], MAP_DETAILS["mines"])
 
     draw_table(field)
-
     draw_grid(field, display, screen)
 
     pygame.display.flip()
@@ -146,7 +145,5 @@ def main():
                     handle_right_click(field, row, column)
                 elif event.button == 1:
                     handle_left_click(field, row, column)
-                
-
 
 main()

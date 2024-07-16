@@ -6,7 +6,7 @@ class Game():
     def __init__(self):
         self.map = []
         
-    def get_random_coord(self, row_count, column_count):
+    def get_random_coord(self, row_count, column_count) -> tuple[int, int]:
         row_index = randint(0, row_count - 1)
         column_index = randint(0, column_count - 1)
 
