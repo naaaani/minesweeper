@@ -23,6 +23,25 @@ class Game():
         for _ in range(mine_count):
             [row_index, column_index] = self.get_random_coord(row_count, column_count)
             self.set_mine(row_index, column_index)
+            self.count_num_values_around_mine(row_index, column_index)
+            
+    def count_num_values_around_mine(self, y, x):
+        if y-1 > -1 and self.map[y-1][x].num_value != -1:
+            self.map[y-1][x].num_value += 1  # north
+        if x+1 < len(self.map[0]) and self.map[y][x+1].num_value != -1:
+            self.map[y][x+1].num_value += 1  # east
+        if y+1 < len(self.map) and self.map[y+1][x].num_value != -1:
+            self.map[y+1][x].num_value += 1  # south
+        if x-1 > -1 and self.map[y][x-1].num_value != -1:
+            self.map[y][x-1].num_value += 1  # west
+        if y-1 > -1 and x+1 < len(self.map[0]) and self.map[y-1][x+1].num_value != -1:
+            self.map[y-1][x+1].num_value += 1  # north-east
+        if y+1 < len(self.map) and x+1 < len(self.map[0]) and self.map[y+1][x+1].num_value != -1:
+            self.map[y+1][x+1].num_value += 1  # south-east
+        if y+1 < len(self.map) and x-1 > -1 and self.map[y+1][x-1].num_value != -1:
+            self.map[y+1][x-1].num_value += 1  # south-west
+        if y-1 > -1 and x-1 > -1 and self.map[y-1][x-1].num_value != -1:
+            self.map[y-1][x-1].num_value += 1  # north-west
 
     def set_mine(self, row, column):
         self.map[row][column].set_mine()
