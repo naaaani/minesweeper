@@ -29,11 +29,11 @@ def draw_table(field):
     print(tabulate(num_map, headers, tablefmt="grid"))
 
 
-def draw_grid(field, screen_details, screen_surface):
+def draw_grid(field, screen_details: Screen_Details, screen_surface: pygame.surface):
     white = (255, 255, 255)
-    block_width = 20
-    block_height = block_width
     margin = 5
+    block_width = screen_surface.get_height() / (MAP_DETAILS["x"] + margin)
+    block_height = block_width
 
     for row in range(MAP_DETAILS["x"]):
         for column in range(MAP_DETAILS["y"]):
@@ -72,8 +72,8 @@ def main():
     pygame.init()
     display = Screen_Details(255, 255, (0, 0, 0), font="Arial")
 
-    screen = pygame.display.set_mode(
-        (display.screen_width, display.screen_height))
+    screen: pygame.surface = pygame.display.set_mode(
+        size=(display.screen_width, display.screen_height), flags=pygame.RESIZABLE)
     pygame.display.set_caption('Minesweeper')
     screen.fill(display.background_color)
 
@@ -89,13 +89,13 @@ def main():
 
     running = True
     while running:
-        pygame.display.flip()
+        pygame.event.pump()
         draw_grid(field, display, screen)
         events = pygame.event.get()
         for event in events:
             if event.type == pygame.QUIT:
                 running = False
-            elif event.type == pygame.MOUSEBUTTONUP:
+            if event.type == pygame.MOUSEBUTTONUP:
                 mouse_pos = pygame.mouse.get_pos()
                 column = mouse_pos[0] // (20 + 5)
                 row = mouse_pos[1] // (20 + 5)
@@ -107,5 +107,7 @@ def main():
                     handle_right_click(field, row, column)
                 elif event.button == 1:
                     handle_left_click(field, row, column)
+            if event.type == pygame.VIDEORESIZE:
+                pygame.display.update()
 
 main()
