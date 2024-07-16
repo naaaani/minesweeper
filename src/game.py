@@ -5,7 +5,7 @@ from tabulate import tabulate
 
 from Tile import Tile
 from Screen_Details import Screen_Details
-from Game import Game
+from src.Map import Map
 
 MAP_DETAILS = {
     "x": 10,
@@ -77,7 +77,7 @@ def main():
     pygame.display.set_caption('Minesweeper')
     screen.fill(screen_details.background_color)
 
-    game: Game = Game()
+    game: Map = Map()
     game.crate_field(
         MAP_DETAILS["x"], MAP_DETAILS["y"], MAP_DETAILS["mines"])
     field = game.get_field()

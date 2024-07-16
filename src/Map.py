@@ -2,7 +2,7 @@ from random import randint
 
 from Tile import Tile
 
-class Game():
+class Map():
     def __init__(self):
         self.map = []
         
