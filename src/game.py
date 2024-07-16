@@ -77,10 +77,10 @@ def main():
     pygame.display.set_caption('Minesweeper')
     screen.fill(screen_details.background_color)
 
-    game: Map = Map()
-    game.crate_field(
+    map: Map = Map()
+    map.crate_map(
         MAP_DETAILS["x"], MAP_DETAILS["y"], MAP_DETAILS["mines"])
-    field = game.get_field()
+    field = map.get_map()
 
     draw_table(field)
     draw_grid(field, screen_details, screen)

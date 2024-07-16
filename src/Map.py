@@ -17,7 +17,7 @@ class Map():
         else:
             return self.get_random_coord(row_count, column_count)
 
-    def crate_field(self, row_count, column_count, mine_count):
+    def crate_map(self, row_count, column_count, mine_count):
         self.map = [[Tile(x, y) for x in range(column_count)]
                 for y in range(row_count)]
         for _ in range(mine_count):
@@ -46,5 +46,5 @@ class Map():
     def set_mine(self, row, column):
         self.map[row][column].set_mine()
 
-    def get_field(self) -> list[list]:
+    def get_map(self) -> list[list]:
         return self.map
