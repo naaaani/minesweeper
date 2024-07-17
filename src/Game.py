@@ -11,8 +11,11 @@ class Game:
         self.screen_height = 800
         self.create_screen()
         
+        self.number_of_mines = 10
+        
         self.menu = Menu(self)
-        self.play = Play(self)
+        self.play = Play(self, self.number_of_mines)
+        
         
         self.active_state = None
         self.set_active_state(self.menu)
@@ -33,6 +36,9 @@ class Game:
     def get_screen_dim(self):
         return (self.screen_width, self.screen_height,)
     
+    def menu_start_pressed(self):
+        self.set_active_state(self.play)
+        
     def main_loop(self):
         running = True
         while running:
