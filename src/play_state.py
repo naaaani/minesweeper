@@ -51,37 +51,31 @@ class Play(AbstractState):
         pass
 
     def proc_event(self, event):
-        pass
-    
-    def update(self):
-        pygame.event.pump()
-        pygame.display.flip()
-        self.draw_grid()
-        events = pygame.event.get()
-        for event in events:
-            if event.type == pygame.QUIT:
-                running = False
-            if event.type == pygame.MOUSEBUTTONUP:
-                mouse_pos = pygame.mouse.get_pos()
-                column = mouse_pos[0] // (20 + 5)
-                row = mouse_pos[1] // (20 + 5)
-                print(row, column)
+        if event.type == pygame.MOUSEBUTTONUP:
+            mouse_pos = pygame.mouse.get_pos()
+            column = mouse_pos[0] // (20 + 5)
+            row = mouse_pos[1] // (20 + 5)
+            print(row, column)
 
-                if row >= 10 or column >= 10:
-                    break
-                if event.button == 3:
-                    self.handle_right_click(row, column)
-                elif event.button == 1:
-                    self.handle_left_click(row, column)
+            if row >= 10 or column >= 10:
+                pass
+            if event.button == 3:
+                self.handle_right_click(row, column)
+            elif event.button == 1:
+                self.handle_left_click(row, column)
             if event.type == pygame.VIDEORESIZE:
                 pygame.display.update()
+    
+    def update(self):
+        self.draw_grid()
                 
     def handle_right_click(self, row, column):
+        print(row, column)
         target_tile: Tile = self.map[row][column]
         target_tile.set_flag()
         
     def handle_left_click(self, row, column):
-        target_tile: Tile = self.map[row][column]
+        target_tile: Tile = self.map.get_map()[row][column]
         if target_tile.is_mine():
             print("You lose")
         elif target_tile.is_hidden():
