@@ -21,7 +21,8 @@ class Game:
         self.set_active_state(self.menu)
 
     def create_screen(self):
-        self.screen = pygame.display.set_mode((self.screen_width, self.screen_height,))
+        self.screen = pygame.display.set_mode((self.screen_width, self.screen_height),
+                                              flags=pygame.RESIZABLE | pygame.SCALED)
         pygame.display.flip()
     
     def set_active_state(self, state):
