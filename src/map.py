@@ -10,9 +10,9 @@ class Map():
         row_index = randint(0, row_count - 1)
         column_index = randint(0, column_count - 1)
 
-        currentTile: Tile = self.map[row_index][column_index]
+        current_tile: Tile = self.map[row_index][column_index]
 
-        if not self.map[row_index][column_index].is_mine():
+        if not current_tile.is_mine():
             return [row_index, column_index]
         else:
             return self.get_random_coord(row_count, column_count)
