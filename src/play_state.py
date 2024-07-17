@@ -20,10 +20,17 @@ class Play(AbstractState):
     def draw_grid(self):
         white = (255, 255, 255)
         margin = 5
-        block_width = self.screen_height / (self.game.number_of_mines + margin)
-        block_height = block_width
+        font = pygame.font.SysFont('Arial', 50)
         
         field = self.map.get_map()
+        
+        sidepanel = self.create_side_panel()
+        sidepanel_horizontal_position = self.screen_width - sidepanel.get_width()
+        self.screen.blit(sidepanel, (sidepanel_horizontal_position, 0))
+        
+        game_grid = self.create_game_grid()
+        game_grid_position = (0, 0)
+        self.screen.blit(game_grid, game_grid_position)
 
         for row in range(10):
             for column in range(10):
@@ -33,17 +40,38 @@ class Play(AbstractState):
                     color = (0, 0, 0)
                 if current_tile.is_flagged():
                     color = (255, 0, 0)
-                rect = pygame.draw.rect(self.screen,
-                                 color,
-                                 pygame.Rect((margin + block_width) * column + margin,
-                                         (margin + block_height) * row + margin,
-                                         block_width,
-                                         block_height))
+                    
+                rect_width = game_grid.get_width() / self.number_of_mines
+                rect_height = rect_width
+                
+                rectangle = pygame.Rect((margin + rect_width) * column + margin,
+                                         (margin + rect_height) * row + margin,
+                                         rect_width,
+                                         rect_height)
+            
+                rect = pygame.draw.rect(surface=game_grid, color=color, rect=rectangle)
+                
                 if not current_tile.is_hidden():
                     content = str(current_tile.num_value)
-                    text = 'Arial'.render(content, True, (0, 0, 0))
-                    self.screen.blit(text, rect)
+                    text = font.render(content, True, (0, 0, 0))
+                    game_grid.blit(text, rect)
+                            
+    def create_side_panel(self) -> pygame.surface:
+        width = self.screen_width / 4
+        height = self.screen_height
+        
+        sidepanel = pygame.Surface(size=(width, height))
+        sidepanel.fill((0,0,0))
+        return sidepanel
     
+    def create_game_grid(self) -> pygame.surface:
+        width = (self.screen_width - 200 - 10)
+        height = width
+        
+        game_grid = pygame.Surface(size=(width, height), flags=pygame.SCALED)
+        game_grid.fill((0, 0, 255))
+        return game_grid
+        
     def activate(self):
         self.draw_grid()
 
@@ -51,26 +79,26 @@ class Play(AbstractState):
         pass
 
     def proc_event(self, event):
-        if event.type == pygame.MOUSEBUTTONUP:
-            mouse_pos = pygame.mouse.get_pos()
-            column = mouse_pos[0] // (20 + 5)
-            row = mouse_pos[1] // (20 + 5)
-            print(row, column)
+        pass
+        # if event.type == pygame.MOUSEBUTTONUP:
+        #     mouse_pos = pygame.mouse.get_pos()
+        #     column = mouse_pos[0] // (20 + 5)
+        #     row = mouse_pos[1] // (20 + 5)
+        #     print(row, column)
 
-            if row >= 10 or column >= 10:
-                pass
-            if event.button == 3:
-                self.handle_right_click(row, column)
-            elif event.button == 1:
-                self.handle_left_click(row, column)
-            if event.type == pygame.VIDEORESIZE:
-                pygame.display.update()
+        #     if row >= 10 or column >= 10:
+        #         pass
+        #     if event.button == 3:
+        #         self.handle_right_click(row, column)
+        #     elif event.button == 1:
+        #         self.handle_left_click(row, column)
+        #     if event.type == pygame.VIDEORESIZE:
+        #         pygame.display.update()
     
     def update(self):
         self.draw_grid()
                 
     def handle_right_click(self, row, column):
-        print(row, column)
         target_tile: Tile = self.map[row][column]
         target_tile.set_flag()
         
