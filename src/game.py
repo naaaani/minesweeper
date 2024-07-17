@@ -5,7 +5,7 @@ from tabulate import tabulate
 
 from Tile import Tile
 from Screen_Details import Screen_Details
-from src.Map import Map
+from src.map import Map
 
 MAP_DETAILS = {
     "x": 10,
@@ -78,7 +78,7 @@ def main():
     screen.fill(screen_details.background_color)
 
     map: Map = Map()
-    map.crate_map(
+    map.create_map(
         MAP_DETAILS["x"], MAP_DETAILS["y"], MAP_DETAILS["mines"])
     field = map.get_map()
 
