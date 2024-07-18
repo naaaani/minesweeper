@@ -1,4 +1,5 @@
 import pygame
+from math import floor
 
 from abstract_state import AbstractState
 from map import Map
@@ -58,15 +59,17 @@ class Play(AbstractState):
                                          rect_width,
                                          rect_height)
             
-                rect = pygame.draw.rect(surface=game_grid, color=color, rect=rectangle)
+                pygame.draw.rect(surface=game_grid, color=color, rect=rectangle)
                 
                 if not current_tile.is_hidden():
                     content = str(current_tile.num_value)
                     text = font.render(content, True, (0, 0, 0))
-                    game_grid.blit(text, rect)
-                            
-    def create_side_panel(self) -> pygame.surface:
-        width = self.screen_width / 4
+                    game_grid.blit(text, rectangle)
+        
+        self.screen.blit(game_grid, game_grid_position)
+     
+    def create_side_panel(self) -> pygame.Surface:
+        width = floor(pygame.display.get_surface().get_width() / 4)
         height = self.screen_height
         
         sidepanel = pygame.Surface(size=(width, height))
@@ -88,24 +91,13 @@ class Play(AbstractState):
         pass
 
     def proc_event(self, event):
-        pass
-        # if event.type == pygame.MOUSEBUTTONUP:
-        #     mouse_pos = pygame.mouse.get_pos()
-        #     column = mouse_pos[0] // (20 + 5)
-        #     row = mouse_pos[1] // (20 + 5)
-        #     print(row, column)
-
-        #     if row >= 10 or column >= 10:
-        #         pass
-        #     if event.button == 3:
-        #         self.handle_right_click(row, column)
-        #     elif event.button == 1:
-        #         self.handle_left_click(row, column)
-        #     if event.type == pygame.VIDEORESIZE:
-        #         pygame.display.update()
+      pass
     
     def update(self):
+        window = pygame.display.get_surface()
+        (self.screen_width, self.screen_height) = (window.get_width(), window.get_height())
         self.draw_grid()
+        pygame.display.update()
                 
     def handle_right_click(self, row, column):
         target_tile: Tile = self.map[row][column]
