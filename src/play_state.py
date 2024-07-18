@@ -5,9 +5,8 @@ from map import Map
 from Tile import Tile
 
 class Play(AbstractState):
-    def __init__(self, game, number_of_mines):
+    def __init__(self, game):
         self.game = game
-        self.number_of_mines = number_of_mines
         (self.screen_width, self.screen_height,) = self.game.get_screen_dim()
         self.screen = pygame.display.get_surface()
         self.side_panel = self.create_side_panel()
