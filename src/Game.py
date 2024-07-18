@@ -22,7 +22,7 @@ class Game:
 
     def create_screen(self):
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height),
-                                              flags=pygame.RESIZABLE | pygame.SCALED)
+                                              flags=pygame.RESIZABLE)
         pygame.display.flip()
     
     def set_active_state(self, state):
@@ -35,7 +35,7 @@ class Game:
         return self.screen
     
     def get_screen_dim(self):
-        return (self.screen_width, self.screen_height,)
+        return (self.screen.get_width(), self.screen.get_height(),)
     
     def menu_start_pressed(self):
         self.set_active_state(self.play)
@@ -46,10 +46,11 @@ class Game:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     quit()
-                self.active_state.proc_event(event)
-                pygame.display.get_surface().fill((200,200,255,))
-                self.active_state.update()
-                pygame.display.update()     
+                else :            
+                    pygame.display.get_surface().fill((200,200,255,))
+                    self.active_state.proc_event(event)
+                    self.active_state.update()
+                    pygame.display.update()     
     
 
 if __name__ == "__main__":
