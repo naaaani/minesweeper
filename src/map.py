@@ -18,6 +18,8 @@ class Map():
             return self.get_random_coord(row_count, column_count)
 
     def create_map(self, row_count, column_count, mine_count):
+        self.column_count = column_count
+        self.row_count = row_count
         self.map = [[Tile(x, y) for x in range(column_count)]
                 for y in range(row_count)]
         for _ in range(mine_count):
@@ -48,3 +50,9 @@ class Map():
 
     def get_map(self) -> list[list]:
         return self.map
+    
+    def get_column_count(self):
+        return self.column_count
+    
+    def get_row_count(self):
+        return self.row_count
