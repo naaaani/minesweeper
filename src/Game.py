@@ -14,7 +14,7 @@ class Game:
         self.number_of_mines = 10
         
         self.menu = Menu(self)
-        self.play = Play(self, self.number_of_mines)
+        self.play = Play(self)
         
         
         self.active_state = None
