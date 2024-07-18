@@ -19,7 +19,6 @@ class Play(AbstractState):
     
     def draw_grid(self):
         white = (255, 255, 255)
-        margin = 5
         font = pygame.font.SysFont('Arial', 50)
         
         field = self.map.get_map()
@@ -40,9 +39,19 @@ class Play(AbstractState):
                     color = (0, 0, 0)
                 if current_tile.is_flagged():
                     color = (255, 0, 0)
-                    
-                rect_width = game_grid.get_width() / self.number_of_mines
+                
+                rect_width = 0
+                grid_width = game_grid.get_width()
+                grid_height = game_grid.get_height()
+                column_count = self.map.get_column_count()          
+                
+                if grid_height <= grid_width:
+                    rect_width = grid_width / (column_count + 1)
+                elif grid_height > grid_width:
+                    rect_width = grid_height / (column_count + 1)
+                                
                 rect_height = rect_width
+                margin = rect_width / 10
                 
                 rectangle = pygame.Rect((margin + rect_width) * column + margin,
                                          (margin + rect_height) * row + margin,
@@ -64,11 +73,11 @@ class Play(AbstractState):
         sidepanel.fill((0,0,0))
         return sidepanel
     
-    def create_game_grid(self) -> pygame.surface:
-        width = (self.screen_width - 200 - 10)
+    def create_game_grid(self) -> pygame.Surface:
+        width = (self.screen_width - self.side_panel.get_width() - 10)
         height = width
         
-        game_grid = pygame.Surface(size=(width, height), flags=pygame.SCALED)
+        game_grid = pygame.Surface(size=(width, height), flags=pygame.RESIZABLE)
         game_grid.fill((0, 0, 255))
         return game_grid
         
