@@ -9,8 +9,9 @@ class Play(AbstractState):
         self.game = game
         self.number_of_mines = number_of_mines
         (self.screen_width, self.screen_height,) = self.game.get_screen_dim()
-        self.screen = self.game.get_screen()
-        
+        self.screen = pygame.display.get_surface()
+        self.side_panel = self.create_side_panel()
+        self.game_grid = self.create_game_grid()
         self.map: Map = Map()
         self.map.create_map(10, 10, 10)
             
